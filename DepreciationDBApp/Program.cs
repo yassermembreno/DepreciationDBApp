@@ -1,10 +1,16 @@
+using DepreciationDBApp.Applications.Interfaces;
+using DepreciationDBApp.Applications.Services;
 using DepreciationDBApp.Domain.Entities;
+using DepreciationDBApp.Domain.Interfaces;
+using DepreciationDBApp.Forms;
+using DepreciationDBApp.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -21,6 +27,7 @@ namespace DepreciationDBApp
         static void Main()
         {
             var configurationBuilder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
             Configuration = configurationBuilder.Build();
 
@@ -33,11 +40,28 @@ namespace DepreciationDBApp
             });
 
             var host = builder.Build();
-            //TODO agregar la injeccion para los servicios
+            
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+
+            var services = new ServiceCollection();
+            
+            services.AddDbContext<DepreciationDBContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("Default"));
+            });
+            services.AddScoped<IDepreciationDbContext, DepreciationDBContext>();
+            services.AddScoped<IAssetRepository, EFAssetRepository>();
+            services.AddScoped<IAssetService, AssetService>();
+            services.AddScoped<Form1>();
+
+            using (var serviceScope = services.BuildServiceProvider())
+            {
+                var main = serviceScope.GetRequiredService<Form1>();
+                Application.Run(main);
+            }            
+          
         }
     }
 }

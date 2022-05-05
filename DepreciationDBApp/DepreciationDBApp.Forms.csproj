@@ -17,7 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DepreciationDBApp.Applications\DepreciationDBApp.Applications.csproj" />
     <ProjectReference Include="..\DepreciationDBApp.Domain\DepreciationDBApp.Domain.csproj" />
+    <ProjectReference Include="..\DepreciationDBApp.Infrastructure\DepreciationDBApp.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
