@@ -37,6 +37,17 @@ namespace DepreciationDBApp.Forms
             };
 
             assetService.Create(asset);
+            LoadDataGridView();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            LoadDataGridView();
+        }
+
+        private void LoadDataGridView()
+        {
+            dgvAsset.DataSource = assetService.GetAll();
         }
     }
 }

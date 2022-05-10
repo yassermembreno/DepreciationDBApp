@@ -39,7 +39,7 @@ namespace DepreciationDBApp.Applications.Services
 
         public Asset FindById(int id)
         {
-            throw new NotImplementedException();
+            return assetRepository.FindById(id);
         }
 
         public List<Asset> FindByName(string name)

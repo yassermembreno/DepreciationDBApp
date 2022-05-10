@@ -34,7 +34,8 @@ namespace DepreciationDBApp.Infrastructure.Repositories
 
         public Asset FindById(int id)
         {
-            depreciationDbContext.Assets.Where(x => x.Id == id).FirstOrDefault();
+            return depreciationDbContext.Assets
+                                        .FirstOrDefault(x => x.Id == id);
         }
 
         public List<Asset> FindByName(string name)
