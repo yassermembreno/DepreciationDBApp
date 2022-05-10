@@ -34,7 +34,7 @@ namespace DepreciationDBApp.Infrastructure.Repositories
 
         public Asset FindById(int id)
         {
-            throw new NotImplementedException();
+            depreciationDbContext.Assets.Where(x => x.Id == id).FirstOrDefault();
         }
 
         public List<Asset> FindByName(string name)

@@ -26,20 +26,19 @@ namespace DepreciationDBApp
         [STAThread]
         static void Main()
         {
-            var configurationBuilder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-            Configuration = configurationBuilder.Build();
+            Configuration = new ConfigurationBuilder()                
+                .AddJsonFile("appsettings.json")
+                .AddEnvironmentVariables().Build();             
 
-            var builder = new HostBuilder().ConfigureServices((hostContext, services) =>
-            {
-                services.AddDbContext<DepreciationDBContext>(options =>
-                {
-                    options.UseSqlServer(Configuration.GetConnectionString("Default"));
-                });
-            });
+            //var builder = new HostBuilder().ConfigureServices((hostContext, services) =>
+            //{
+            //    services.AddDbContext<DepreciationDBContext>(options =>
+            //    {
+            //        options.UseSqlServer(Configuration.GetConnectionString("Default"));
+            //    });
+            //});
 
-            var host = builder.Build();
+            //var host = builder.Build();
             
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
