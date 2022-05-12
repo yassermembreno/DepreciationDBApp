@@ -2,7 +2,7 @@
 
 namespace DepreciationDBApp.Domain.Migrations
 {
-    public partial class DepreciationDB : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DepreciationDBApp.Domain.Migrations
 {
     [DbContext(typeof(DepreciationDBContext))]
-    [Migration("20220505132656_DepreciationDB")]
-    partial class DepreciationDB
+    [Migration("20220511165857_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
