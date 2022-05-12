@@ -11,7 +11,6 @@ namespace DepreciationDBApp.Infrastructure.Repositories
     public class EFAssetRepository : IAssetRepository
     {
         public IDepreciationDbContext depreciationDbContext;
-
         public EFAssetRepository(IDepreciationDbContext depreciationDbContext)
         {
             this.depreciationDbContext = depreciationDbContext;

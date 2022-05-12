@@ -5,22 +5,21 @@ using System.Collections.Generic;
 
 namespace DepreciationDBApp.Domain.Entities
 {
-    public partial class Asset
+    public partial class Employee
     {
-        public Asset()
+        public Employee()
         {
             AssetEmployees = new HashSet<AssetEmployee>();
         }
 
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public decimal Amount { get; set; }
-        public decimal AmountResidual { get; set; }
-        public int Terms { get; set; }
-        public string Code { get; set; }
+        public string Names { get; set; }
+        public string Lastnames { get; set; }
+        public string Address { get; set; }
+        public string Phone { get; set; }
+        public string Email { get; set; }
+        public string Dni { get; set; }
         public string Status { get; set; }
-        public bool IsActive { get; set; }
 
         public virtual ICollection<AssetEmployee> AssetEmployees { get; set; }
     }
