@@ -39,6 +39,6 @@ add constraint fk_asset foreign key (assetId)
 references Asset(id)
 go
 alter table AssetEmployee
-add constraint fk_employee foreign key (employeetId) 
+add constraint fk_employee foreign key (employeeId) 
 references Employee(id)
 

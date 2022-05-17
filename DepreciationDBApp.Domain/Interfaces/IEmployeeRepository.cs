@@ -12,5 +12,6 @@ namespace DepreciationDBApp.Domain.Interfaces
         Employee FindByDni(string dni);
         Employee FindByEmail(string email);
         IEnumerable<Employee> FindByLastnames(string lastnames);
+       
     }
 }
