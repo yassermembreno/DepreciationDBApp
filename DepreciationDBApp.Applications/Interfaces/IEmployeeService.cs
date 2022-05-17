@@ -9,7 +9,7 @@ namespace DepreciationDBApp.Applications.Interfaces
 {
     public interface IEmployeeService : IService<Employee>
     {
-        bool SetAssetToEmployee(Employee employee, Asset asset);
-        bool SetAssetsToEmployee(Employee employee, List<Asset> assets);
+        bool SetAssetToEmployee(Employee employee, Asset asset, DateTime efectiveDate);
+        bool SetAssetsToEmployee(Employee employee, List<Asset> assets, DateTime efectiveDate);
     }
 }

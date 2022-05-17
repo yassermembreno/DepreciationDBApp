@@ -32,42 +32,131 @@ namespace DepreciationDBApp.Infrastructure.Repositories
 
         public bool Delete(Employee t)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (t == null)
+                {
+                    throw new ArgumentNullException("El objeto Employee no puede ser null.");
+                }
+
+                Employee employee = FindByDni(t.Dni);
+                if (employee == null)
+                {
+                    throw new Exception($"El objeto con dni {t.Dni} no existe.");
+                }
+
+                depreciationDbContext.Employees.Remove(employee);
+                int result = depreciationDbContext.SaveChanges();
+
+                return result > 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public Employee FindByDni(string dni)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if(string.IsNullOrWhiteSpace(dni))
+                {
+
+                    throw new ArgumentException($"El objeto dni no puede ser null o estar vacia");
+                }
+
+                return depreciationDbContext.Employees.FirstOrDefault(x => x.Dni.Equals(dni));
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public Employee FindByEmail(string email)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                if(string.IsNullOrWhiteSpace(email))
+                {
+
+                    throw new ArgumentException($"El objeto email no puede ser null o estar vacio");
+                }
+
+
+                return depreciationDbContext.Employees.FirstOrDefault(x => x.Email.Equals(email));
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public IEnumerable<Employee> FindByLastnames(string lastnames)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (string.IsNullOrWhiteSpace(lastnames))
+                {
+                    throw new ArgumentException("El objeto apellido no puede ser null o estar vacio");
+                }
+
+                return depreciationDbContext.Employees.Where(x => x.Lastnames.Equals(lastnames, StringComparison.CurrentCultureIgnoreCase))
+                                        .ToList();
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public List<Employee> GetAll()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return depreciationDbContext.Employees.ToList();
+            }
+            catch(Exception)
+            {
+                throw;
+            }   
         }
-
-        public bool SetAssetsToEmployee(Employee employee, List<Asset> assets)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool SetAssetToEmployee(Employee employee, Asset asset)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         public int Update(Employee t)
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (t == null)
+                {
+                    throw new ArgumentNullException("El objeto empleado no puede ser null.");
+                }
+
+                Employee employee = FindByDni(t.Dni);
+                if (employee == null)
+                {
+                    throw new Exception($"El objeto empleado con esa dni no existe.");
+                }
+
+                employee.Names = t.Names;
+                employee.Lastnames = t.Lastnames;
+                employee.Address = t.Address;
+                employee.Phone = t.Phone;
+                employee.Email = t.Email;
+                employee.Status = t.Status;
+
+                depreciationDbContext.Employees.Update(employee);
+                return depreciationDbContext.SaveChanges();
+            }
+            catch
+            {
+                throw;
+            }
         }
 
         private void ValidateEmployee(Employee employee)
