@@ -15,12 +15,12 @@ namespace DepreciationDBApp.Infrastructure.Repositories
         {
             this.depreciationDbContext = depreciationDbContext;
         }
-        public void Create(AssetEmployee t)
+        public int Create(AssetEmployee t)
         {
             try
             {
                 depreciationDbContext.AssetEmployees.Add(t);
-                depreciationDbContext.SaveChanges();
+                return depreciationDbContext.SaveChanges();
 
             }catch (Exception)
             {

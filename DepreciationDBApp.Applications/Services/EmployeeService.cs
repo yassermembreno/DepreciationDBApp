@@ -1,6 +1,7 @@
 ﻿using DepreciationDBApp.Applications.Interfaces;
 using DepreciationDBApp.Domain.Entities;
 using DepreciationDBApp.Domain.Interfaces;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace DepreciationDBApp.Applications.Services
     {
         private IEmployeeRepository employeeRepository;
         private IAssetEmployeeRepository assetEmployeeRepository;
+        private IAssetRepository assetRepository;
         public EmployeeService(IEmployeeRepository employeeRepository, IAssetEmployeeRepository assetEmployeeRepository)
         {
             this.employeeRepository = employeeRepository;
@@ -36,6 +38,7 @@ namespace DepreciationDBApp.Applications.Services
         public bool SetAssetsToEmployee(Employee employee, List<Asset> assets, DateTime efectiveDate)
         {
             bool success = false;
+            using IDbContextTransaction transaction = employeeRepository.GetTransaction();
             try
             {
                 if(assets == null || assets.Count == 0)
@@ -47,15 +50,24 @@ namespace DepreciationDBApp.Applications.Services
                     success = SetAssetToEmployee(employee, asset, efectiveDate);
                     if (!success)
                     {
-                        //throw new Exception($"Fallo al asignar el asseId{asset.Id} al empleado {employee.Id}.");
-                        break;
+                        throw new Exception($"Fallo al asignar el asseId{asset.Id} al empleado {employee.Id}.");
+                        //break;
+                    }
+                    asset.Status = "Asignado";
+                    success = assetRepository.Update(asset) > 0;
+
+                    if (!success)
+                    {
+                        throw new Exception($"Fallo al actualizar el asseId{asset.Id}.");
                     }
                 }
 
-                //assets.ForEach(x =>
-                //{
-                //    SetAssetToEmployee(employee, x, efectiveDate);
-                //});
+
+                if (success)
+                {
+                    transaction.Commit();
+                }
+               
                 return success;
             }
             catch (Exception)
@@ -79,8 +91,8 @@ namespace DepreciationDBApp.Applications.Services
                     IsActive = true
                 };
 
-                assetEmployeeRepository.Create(assetEmployee);
-                return true;
+                return assetEmployeeRepository.Create(assetEmployee) > 0;
+                
             }
             catch (Exception)
             {

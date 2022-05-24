@@ -12,6 +12,7 @@ namespace DepreciationDBApp.Domain.DepreciationDBEntities
     {
         public DepreciationDBContext()
         {
+            
         }
 
         public DepreciationDBContext(DbContextOptions<DepreciationDBContext> options)

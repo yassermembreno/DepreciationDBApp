@@ -1,4 +1,5 @@
 ﻿using DepreciationDBApp.Domain.Entities;
+using Microsoft.EntityFrameworkCore.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,6 @@ namespace DepreciationDBApp.Domain.Interfaces
         Employee FindByDni(string dni);
         Employee FindByEmail(string email);
         IEnumerable<Employee> FindByLastnames(string lastnames);
-       
+        IDbContextTransaction GetTransaction();
     }
 }
